@@ -463,6 +463,145 @@
   .kpi-card .kpi-value.green { color: var(--green); }
   .kpi-card .kpi-value.idle { color: var(--idle); }
   .kpi-card .kpi-sub { font-size: 11px; color: var(--light); margin-top: 4px; }
+
+  /* ========== FUEL COST PAGE ========== */
+  .fuel-hero {
+    background: linear-gradient(135deg, #1a6b2e 0%, #2d9e45 60%, #4dc866 100%);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .fuel-hero-icon { font-size: 48px; flex-shrink: 0; }
+  .fuel-hero h2 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .fuel-hero p  { font-size: 13px; opacity: 0.85; line-height: 1.5; }
+
+  .fuel-calc-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .fuel-calc-header {
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+  }
+  .fuel-calc-header h3 { font-size: 14px; font-weight: 700; color: #fff; }
+  .fuel-calc-header svg { opacity: 0.8; }
+  .fuel-calc-body { padding: 24px; }
+
+  .fuel-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media(max-width:600px) { .fuel-row { grid-template-columns: 1fr; } }
+  .fuel-row label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .fuel-input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Noto Sans Mono', monospace;
+    color: var(--blue);
+    background: var(--blue-pale);
+    width: 100%;
+    transition: border 0.2s;
+  }
+  .fuel-input:focus { outline: none; border-color: var(--blue); background: #fff; }
+  .fuel-select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Noto Sans', sans-serif;
+    color: var(--dark);
+    background: var(--blue-pale);
+    width: 100%;
+    cursor: pointer;
+  }
+  .fuel-select:focus { outline: none; border-color: var(--blue); }
+
+  .fuel-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .fuel-btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+  .fuel-results {
+    display: none;
+    margin-top: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  .fuel-results.visible { display: block; }
+
+  .fuel-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .fuel-result-card {
+    background: linear-gradient(135deg, var(--blue) 0%, #2855e8 100%);
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+  }
+  .fuel-result-card.green-card {
+    background: linear-gradient(135deg, #1a6b2e 0%, #2d9e45 100%);
+  }
+  .fuel-result-card.orange-card {
+    background: linear-gradient(135deg, #b84000 0%, #e86820 100%);
+  }
+  .fuel-result-card .rc-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; opacity: 0.7; margin-bottom: 8px;
+  }
+  .fuel-result-card .rc-value {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 26px; font-weight: 700;
+  }
+  .fuel-result-card .rc-unit {
+    font-size: 11px; opacity: 0.6; margin-top: 3px;
+  }
+
+  /* Vehicle fleet table */
+  .fleet-table-wrapper { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+  .fleet-empty {
+    text-align: center; padding: 32px;
+    color: var(--light); font-size: 13px;
+  }
+  .fleet-summary-bar {
+    background: var(--blue-pale);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .fleet-summary-bar .fs-item { display: flex; flex-direction: column; gap: 2px; }
+  .fleet-summary-bar .fs-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--light); }
+  .fleet-summary-bar .fs-value { font-family: 'Noto Sans Mono', monospace; font-size: 18px; font-weight: 700; color: var(--blue); }
+  .fleet-summary-bar .fs-value.green { color: var(--green); }
+  .fleet-summary-bar .fs-value.orange { color: var(--idle); }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 </head>
@@ -495,6 +634,7 @@
   <button class="tab-btn" onclick="showTab('part2')">Part 2 — Project Hours</button>
   <button class="tab-btn" onclick="showTab('part3')">Part 3 — Utilisation & Costs</button>
   <button class="tab-btn" onclick="showTab('report')">Daily Report</button>
+  <button class="tab-btn" onclick="showTab('fuel')" style="border-left:1px solid rgba(255,255,255,0.2);margin-left:8px;padding-left:28px;">⛽ Fuel Cost</button>
 </div>
 
 <main>
@@ -707,6 +847,149 @@
     </div>
   </div>
 </div>
+
+
+<!-- ============ FUEL COST ============ -->
+<div id="fuel" class="section">
+
+  <div class="fuel-hero">
+    <div class="fuel-hero-icon">⛽</div>
+    <div>
+      <h2>Office Vehicle Fuel Cost Calculator</h2>
+      <p>Estimate the fuel cost for any office trip or your entire fleet. Supports multiple units including km, miles, L/100km, km/L and GHS/USD pricing.</p>
+    </div>
+  </div>
+
+  <!-- Single Trip Calculator -->
+  <div class="fuel-calc-box">
+    <div class="fuel-calc-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      <h3>Single Trip Calculator</h3>
+    </div>
+    <div class="fuel-calc-body">
+      <div class="fuel-row">
+        <label>Vehicle Name</label>
+        <input class="fuel-input" id="fc_vehicle" placeholder="e.g. Toyota HiAce (GH-1234)" style="grid-column:span 2"/>
+      </div>
+
+      <div class="fuel-row">
+        <label>Trip Distance</label>
+        <input class="fuel-input" id="fc_distance" type="number" placeholder="e.g. 120" min="0" oninput="calcFuelCost()"/>
+        <select class="fuel-select" id="fc_distUnit" onchange="calcFuelCost()">
+          <option value="km">kilometres (km)</option>
+          <option value="miles">miles</option>
+        </select>
+      </div>
+
+      <div class="fuel-row">
+        <label>Fuel Efficiency</label>
+        <input class="fuel-input" id="fc_efficiency" type="number" placeholder="e.g. 12" min="0" oninput="calcFuelCost()"/>
+        <select class="fuel-select" id="fc_effUnit" onchange="updateEfficiencyPlaceholder(); calcFuelCost()">
+          <option value="kmL">kilometres per litre (km/L)</option>
+          <option value="L100km">litres per 100 km (L/100 km)</option>
+          <option value="mpg">miles per gallon (mpg)</option>
+          <option value="Lmile">litres per mile</option>
+        </select>
+      </div>
+
+      <div class="fuel-row">
+        <label>Fuel Price</label>
+        <div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;background:var(--blue-pale);overflow:hidden;transition:border 0.2s;" onfocusin="this.style.borderColor='var(--blue)';this.style.background='#fff'" onfocusout="this.style.borderColor='var(--border)';this.style.background='var(--blue-pale)'">
+          <span style="padding:10px 12px;font-family:'Noto Sans',sans-serif;font-size:14px;font-weight:700;color:#0034D2;border-right:1.5px solid var(--border);white-space:nowrap;user-select:none;">GH₵</span>
+          <input class="fuel-input" id="fc_price" type="number" placeholder="e.g. 14.50" min="0" step="0.01" oninput="calcFuelCost()" style="border:none;border-radius:0;background:transparent;flex:1;"/>
+        </div>
+        <select class="fuel-select" id="fc_priceUnit" onchange="calcFuelCost()">
+          <option value="per_litre">per litre</option>
+          <option value="per_gallon">per gallon</option>
+        </select>
+      </div>
+
+      <div class="fuel-divider"></div>
+
+      <!-- Live result panel -->
+      <div id="fuelLiveResult" class="fuel-results">
+        <div class="fuel-result-grid">
+          <div class="fuel-result-card">
+            <div class="rc-label">Fuel Used</div>
+            <div class="rc-value" id="fr_litres">—</div>
+            <div class="rc-unit">litres</div>
+          </div>
+          <div class="fuel-result-card green-card">
+            <div class="rc-label">Total Fuel Cost</div>
+            <div class="rc-value" id="fr_cost">—</div>
+            <div class="rc-unit" id="fr_currency">GH₵</div>
+          </div>
+          <div class="fuel-result-card orange-card">
+            <div class="rc-label">Cost per km</div>
+            <div class="rc-value" id="fr_perKm">—</div>
+            <div class="rc-unit">GH₵/km</div>
+          </div>
+        </div>
+        <div class="formula-pill" id="fuelFormula">—</div>
+      </div>
+
+      <div class="fuel-btn-row">
+        <button class="btn btn-primary" onclick="addToFleet()">＋ Add to Fleet Log</button>
+        <button class="btn btn-secondary" onclick="clearFuelForm()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fleet Log -->
+  <div class="fuel-calc-box">
+    <div class="fuel-calc-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <h3>Fleet Fuel Log</h3>
+    </div>
+    <div class="fuel-calc-body">
+      <div class="fleet-table-wrapper">
+        <table id="fleetTable" style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">#</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Vehicle</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Distance</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Efficiency</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Fuel Price</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Litres Used</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Total Cost</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Cost/km</th>
+              <th style="background:#0034D2;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="fleetBody">
+            <tr><td colspan="9" class="fleet-empty">No vehicles logged yet. Use the calculator above and click "Add to Fleet Log".</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Fleet summary bar -->
+      <div class="fleet-summary-bar" id="fleetSummaryBar" style="display:none;">
+        <div class="fs-item">
+          <span class="fs-label">Total Trips</span>
+          <span class="fs-value" id="fs_trips">0</span>
+        </div>
+        <div class="fs-item">
+          <span class="fs-label">Total Distance</span>
+          <span class="fs-value" id="fs_dist">0 km</span>
+        </div>
+        <div class="fs-item">
+          <span class="fs-label">Total Fuel Used</span>
+          <span class="fs-value orange" id="fs_litres">0 L</span>
+        </div>
+        <div class="fs-item">
+          <span class="fs-label">Total Fuel Cost</span>
+          <span class="fs-value green" id="fs_cost">GH₵ 0.00</span>
+        </div>
+        <div class="fs-item">
+          <span class="fs-label">Avg Cost / km</span>
+          <span class="fs-value" id="fs_perKm">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #fuel -->
 
 </main>
 
@@ -1531,6 +1814,176 @@ async function exportToExcel() {
     console.error('Export error:', err);
     alert('Export failed: ' + err.message);
   }
+}
+
+
+// =========== FUEL COST CALCULATOR ===========
+let fleetLog = [];
+
+const FUEL_PLACEHOLDERS = {
+  kmL:    'e.g. 12  (km per litre)',
+  L100km: 'e.g. 8   (litres per 100 km)',
+  mpg:    'e.g. 30  (miles per gallon)',
+  Lmile:  'e.g. 0.4 (litres per mile)',
+};
+
+function updateEfficiencyPlaceholder() {
+  const unit = document.getElementById('fc_effUnit').value;
+  document.getElementById('fc_efficiency').placeholder = FUEL_PLACEHOLDERS[unit] || 'e.g. 12';
+}
+
+// Convert any inputs → litres used and cost in same currency as price entered
+function calcFuelCost() {
+  const dist      = parseFloat(document.getElementById('fc_distance').value);
+  const eff       = parseFloat(document.getElementById('fc_efficiency').value);
+  const price     = parseFloat(document.getElementById('fc_price').value);
+  const distUnit  = document.getElementById('fc_distUnit').value;
+  const effUnit   = document.getElementById('fc_effUnit').value;
+  const priceUnit = document.getElementById('fc_priceUnit').value;
+
+  const panel = document.getElementById('fuelLiveResult');
+
+  if (isNaN(dist) || isNaN(eff) || isNaN(price) || eff === 0) {
+    panel.classList.remove('visible');
+    return;
+  }
+
+  // Convert distance to km
+  let distKm = distUnit === 'miles' ? dist * 1.60934 : dist;
+
+  // Convert efficiency to km/L (our standard)
+  let kmPerLitre;
+  if      (effUnit === 'kmL')    kmPerLitre = eff;
+  else if (effUnit === 'L100km') kmPerLitre = 100 / eff;
+  else if (effUnit === 'mpg')    kmPerLitre = eff * 1.60934 / 3.78541;
+  else if (effUnit === 'Lmile')  kmPerLitre = 1.60934 / eff;
+
+  // Litres used
+  let litres = distKm / kmPerLitre;
+
+  // Convert price to per-litre
+  let pricePerLitre = priceUnit === 'per_gallon' ? price / 3.78541 : price;
+
+  // Total cost
+  let totalCost = litres * pricePerLitre;
+  let costPerKm = distKm > 0 ? totalCost / distKm : 0;
+
+  // Show results
+  panel.classList.add('visible');
+  document.getElementById('fr_litres').textContent  = litres.toFixed(2);
+  document.getElementById('fr_cost').textContent    = 'GH₵ ' + totalCost.toFixed(2);
+  document.getElementById('fr_perKm').textContent   = costPerKm.toFixed(4);
+
+  // Formula label
+  const effLabel = effUnit === 'kmL'    ? `${eff} km/L` :
+                   effUnit === 'L100km' ? `${eff} L/100km` :
+                   effUnit === 'mpg'    ? `${eff} mpg` :
+                                          `${eff} L/mile`;
+  const distLabel = distUnit === 'miles' ? `${dist} miles (${distKm.toFixed(1)} km)` : `${dist} km`;
+  document.getElementById('fuelFormula').textContent =
+    `${distLabel} ÷ ${effLabel} = ${litres.toFixed(2)} L  ×  price = Total cost`;
+
+  return { distKm, litres, totalCost, costPerKm, pricePerLitre };
+}
+
+function addToFleet() {
+  const vehicle   = document.getElementById('fc_vehicle').value.trim() || 'Unnamed Vehicle';
+  const dist      = parseFloat(document.getElementById('fc_distance').value);
+  const eff       = parseFloat(document.getElementById('fc_efficiency').value);
+  const price     = parseFloat(document.getElementById('fc_price').value);
+  const distUnit  = document.getElementById('fc_distUnit').value;
+  const effUnit   = document.getElementById('fc_effUnit').value;
+  const priceUnit = document.getElementById('fc_priceUnit').value;
+
+  if (isNaN(dist) || isNaN(eff) || isNaN(price) || eff === 0) {
+    alert('Please fill in Trip Distance, Fuel Efficiency, and Fuel Price before adding to the fleet log.');
+    return;
+  }
+
+  const result = calcFuelCost();
+  if (!result) return;
+
+  fleetLog.push({
+    vehicle,
+    dist,
+    distUnit,
+    eff,
+    effUnit,
+    price,
+    priceUnit,
+    distKm: result.distKm,
+    litres: result.litres,
+    totalCost: result.totalCost,
+    costPerKm: result.costPerKm,
+  });
+
+  renderFleet();
+  clearFuelForm();
+}
+
+function removeFleet(i) {
+  fleetLog.splice(i, 1);
+  renderFleet();
+}
+
+function renderFleet() {
+  const tbody = document.getElementById('fleetBody');
+  const summaryBar = document.getElementById('fleetSummaryBar');
+
+  if (fleetLog.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" class="fleet-empty">No vehicles logged yet. Use the calculator above and click "Add to Fleet Log".</td></tr>';
+    summaryBar.style.display = 'none';
+    return;
+  }
+
+  const rowBgA = '#F0F4FF';
+  const rowBgB = '#FFFFFF';
+
+  tbody.innerHTML = fleetLog.map((f, i) => {
+    const bg = i % 2 === 0 ? rowBgA : rowBgB;
+    const distLabel = f.distUnit === 'miles' ? `${f.dist} mi (${f.distKm.toFixed(1)} km)` : `${f.dist} km`;
+    const effLabel  = f.effUnit === 'kmL'    ? `${f.eff} km/L` :
+                      f.effUnit === 'L100km' ? `${f.eff} L/100km` :
+                      f.effUnit === 'mpg'    ? `${f.eff} mpg` :
+                                               `${f.eff} L/mi`;
+    const priceLabel = f.priceUnit === 'per_gallon'
+      ? `GH₵ ${f.price.toFixed(2)}/gal`
+      : `GH₵ ${f.price.toFixed(2)}/L`;
+
+    return `<tr style="background:${bg};">
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-size:12px;color:#888;">${i+1}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-weight:700;font-size:13px;">${f.vehicle}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:12px;">${distLabel}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:12px;">${effLabel}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:12px;">${priceLabel}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:12px;color:#CC4400;font-weight:700;">${f.litres.toFixed(2)} L</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:13px;color:#0A7A3C;font-weight:700;">GH₵ ${f.totalCost.toFixed(2)}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;font-family:'Noto Sans Mono',monospace;font-size:12px;color:#0034D2;font-weight:700;">GH₵ ${f.costPerKm.toFixed(4)}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #D0DCFF;">
+        <button onclick="removeFleet(${i})" style="background:none;border:none;color:#CC4400;cursor:pointer;font-size:13px;">✕ Remove</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Summary bar
+  const totalDist   = fleetLog.reduce((s,f) => s + f.distKm, 0);
+  const totalLitres = fleetLog.reduce((s,f) => s + f.litres, 0);
+  const totalCost   = fleetLog.reduce((s,f) => s + f.totalCost, 0);
+  const avgPerKm    = totalDist > 0 ? totalCost / totalDist : 0;
+
+  document.getElementById('fs_trips').textContent  = fleetLog.length;
+  document.getElementById('fs_dist').textContent   = totalDist.toFixed(1) + ' km';
+  document.getElementById('fs_litres').textContent = totalLitres.toFixed(2) + ' L';
+  document.getElementById('fs_cost').textContent   = 'GH₵ ' + totalCost.toFixed(2);
+  document.getElementById('fs_perKm').textContent  = 'GH₵ ' + avgPerKm.toFixed(4) + '/km';
+  summaryBar.style.display = 'flex';
+}
+
+function clearFuelForm() {
+  ['fc_vehicle','fc_distance','fc_efficiency','fc_price'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('fuelLiveResult').classList.remove('visible');
 }
 
 // =========== INIT ===========
